@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+  <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2019.2.514/styles/kendo.common.min.css">
+  <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2019.2.514/styles/kendo.rtl.min.css">
+  <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2019.2.514/styles/kendo.default.min.css">
+  <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2019.2.514/styles/kendo.mobile.all.min.css">
+ 
+  <script src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
+  <script src="https://kendo.cdn.telerik.com/2019.2.514/js/angular.min.js"></script>
+  <script src="https://kendo.cdn.telerik.com/2019.2.514/js/jszip.min.js"></script>
+  <script src="https://kendo.cdn.telerik.com/2019.2.514/js/kendo.all.min.js"></script>
+  
+</head>
+<body>
+샘플실행
+<table>
+	<thead>
+		<tr>
+			<th th:text="no">
+			</th>
+			<th th:text="name">
+			</th>
+			<th th:text="date">
+			</th>
+		</tr>
+	</thead>
+	<tbody >
+		<tr th:each="g : ${get}">
+			<td th:text="${g.no}">
+			</td>
+			<td th:text="${g.name}">
+			</td>
+			<td th:text="${g.date}">
+			</td>
+		</tr>
+		
+	</tbody>
+	
+</table>
+
+kedo ui 예제
+
+<div id="grid"></div>
+<script>
+$(document).ready(function () {
+$("#grid").kendoGrid({ // kendoGrid 생성
+    dataSource: { // 표시할 데이터를 가지고 와서 유지
+        type: "json",// 데이터 타입 // odata = XML
+        transport: {
+            read: "/getGrid" // json url
+        },
+        pageSize: 20 // 한 페이징에서 보여줄 사이즈
+    },
+    height: 550,
+    groupable: true,
+    sortable: true,
+    pageable: { // 페이징 관련 설정
+        refresh: true,
+        pageSizes: true,
+        buttonCount: 5
+    },
+    columns: [{ // 표시 할 컬럼 설정
+        field: "no",//변수 이름
+        title: "NO",
+        width: 100
+    }, {
+        field: "name",
+        title: "이름"
+    }, {
+        field: "date",
+        title: "작성일",
+        width: 100
+    }]
+});
+});
+
+</script>
+
+</body>
+</html>
