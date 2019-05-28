@@ -30,4 +30,22 @@ public class SmapleController {
 		System.out.println(sampleMapper.get());
 		return sampleMapper.get();
 	}
+	
+	@GetMapping("/ss")
+	public String ss() {
+		
+		return "sample";
+	}
+	
+	@GetMapping("/ss2")
+	public String ss2() {
+		
+		return "sample2";
+	}
+	
+	@GetMapping("/ss3")
+	public String ss3() {
+		
+		return "sample3";
+	}
 }
