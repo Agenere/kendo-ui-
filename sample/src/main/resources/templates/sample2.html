@@ -6,11 +6,14 @@
     <style>html { font-size: 14px; font-family: Arial, Helvetica, sans-serif; }</style>
     <title></title>
     <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2019.2.514/styles/kendo.common-material.min.css" />
+    <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2019.2.514/styles/kendo.rtl.min.css"/>
+    <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2019.2.514/styles/kendo.silver.min.css"/>
     <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2019.2.514/styles/kendo.material.min.css" />
     <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2019.2.514/styles/kendo.material.mobile.min.css" />
 
     <script src="https://kendo.cdn.telerik.com/2019.2.514/js/jquery.min.js"></script>
     <script src="https://kendo.cdn.telerik.com/2019.2.514/js/kendo.all.min.js"></script>
+    
     
 </head>
 <body>
@@ -31,7 +34,7 @@
              <div id="left-pane" >
              <div class="pane-content">
 	            
-	    			<div
+	    		<div class="files"
                  data-role="panelbar"
                  data-text-field="name"
                  data-spritecssclass-field="type"
@@ -43,15 +46,22 @@
              <div id="center-pane">
              <div class="pane-content">
             <div data-role="grid"
-                 data-editable="popup"
-                 data-toolbar="['create']"
+                 data-editable="{mode:'popup',
+                 window:{title:'상세 내용',
+                 		animation: false,
+                 		height:200,
+                 		width:450,
+                 		resizable: true},
+                 template:kendo.template($('#popup-editor').html())}"
+                 data-toolbar="['create' ]"
                  data-columns="[
-                 				 {command: ['edit', 'destroy'], 'title': '&nbsp;', 'width': 250}, 
+                 				 {'command': ['edit', 'destroy'], 'title': '&nbsp;', 'width': 250}, 
                                  { 'field': 'no', 'title': 'NO' },
                                  { 'field': 'name','title': '이름' },
-                                 { 'field': 'date','title': '날짜' },
+                                 { 'field': 'date','title': '날짜' }
                               ]"
-                 data-bind="source: products"
+                 data-bind="visible: isVisible,
+                 			source: products"
                 
                  style="height: 790px">
                  </div>
@@ -60,30 +70,74 @@
         </div>
         </div>
      </div>
+     
+     <!-- data-editable popup template start -->
+<script id="popup-editor" type="text/x-kendo-template">
 
+<fieldset>
+	<legend>
+	Hello #= name # , 작성일 #= date #
+	</legend>
+
+<table>
+	<tr>
+		<td>
+			NO
+		</td>
+		<td>
+			<input data-role="numerictextbox" data-bind="value:no" />
+		</td>
+		<td>
+		</td>
+		<td>
+		</td>
+		
+	</tr>
+	<tr>
+		<td>
+			NAME
+		</td>
+		<td>
+			<input data-bind="value:name" />
+		</td>
+		<td>
+			DATE
+		</td>
+		<td>
+			<input data-bind="value:date" />
+		</td>
+	</tr>
+</table>
+
+</fieldset>
+
+
+</script>
+	<!-- data-editable popup template end -->
     
 <script>
     var viewModel = kendo.observable({
     	//splitter
-    	isVisible: true,
+    	isVisible: true,//출력 유무??
       
         //panelbar
         files: kendo.observableHierarchy([
-            { name: "스케쥴러 등록 현황", type: "html", expanded: true},
-            { name: "실행 진행 중", type: "html", expanded: true}
+            { name: "스케쥴러 등록 현황"},
+            { name: "실행 진행 중"}
         ]),
         
         //grid
         products: new kendo.data.DataSource({
           
-            data:  [
+            data:  [//localdata
             		{no:1,name:"가",date:"10-11-12"},
 					{no:2,name:"나",date:"11-12-13"},
 					{no:3,name:"다",date:"12-13-14"},
 					{no:4,name:"라",date:"13-14-15"},
-					
+					{no:5,name:"마",date:"14-15-16"},
+					{no:6,name:"바",date:"15-16-17"},
+					{no:7,name:"사",date:"16-17-18"},
 					]
-            
         })
     });
     

@@ -33,19 +33,25 @@ public class SmapleController {
 	
 	@GetMapping("/ss")
 	public String ss() {
-		
+		System.out.println("ss 실행");
 		return "sample";
 	}
 	
 	@GetMapping("/ss2")
 	public String ss2() {
-		
+		System.out.println("ss2실행");
 		return "sample2";
 	}
 	
 	@GetMapping("/ss3")
 	public String ss3() {
-		
+		System.out.println("ss3 실행");
 		return "sample3";
+	}
+	
+	@GetMapping("/ss4")
+	public String ss4() {
+		System.out.println("ss4 실행");
+		return "sample4";
 	}
 }
