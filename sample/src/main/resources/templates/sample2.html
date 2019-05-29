@@ -20,57 +20,88 @@
 
 <div id="example">
 
-    <div class="demo-section k-content wide">    
-            <div id="top-pane">
-                <div data-role="splitter"
-                     data-panes="[
-                        { collapsible: true,size : '15%' },
-                        { collapsible: false },
-                     ]"
-                     data-bind="visible: isVisible"
-
-                     style="height: 800px; width: 100%;">
+	<div class="demo-section k-content wide">    
+	 <div id="top-pane">
+		<div data-role="splitter"
+	                   data-panes="[
+				                    { collapsible: true,size : '15%' },
+				                    { collapsible: false },
+				                  ]"
+	                   data-bind="visible: isVisible"
+	                   style="height: 800px; width: 100%;">
              
-             <div id="left-pane" >
-             <div class="pane-content">
-	            
-	    		<div class="files"
-                 data-role="panelbar"
-                 data-text-field="name"
-                 data-spritecssclass-field="type"
-                 data-bind="visible: isVisible,
-                            source: files"></div>
-        </div>				
-             </div>
+			<div id="left-pane" >
+				<div class="pane-content">
+				      
+					<div class="files"
+					          data-role="panelbar"
+					          data-text-field="name"
+					          data-spritecssclass-field="type"
+					          data-bind="visible: isVisible,
+					                     source: files,
+					                     events: { select: onSelect }">
+					</div>
+				</div>				
+			</div>
              
-             <div id="center-pane">
-             <div class="pane-content">
-            <div data-role="grid"
-                 data-editable="{mode:'popup',
-                 window:{title:'상세 내용',
-                 		animation: false,
-                 		height:200,
-                 		width:450,
-                 		resizable: true},
-                 template:kendo.template($('#popup-editor').html())}"
-                 data-toolbar="['create' ]"
-                 data-columns="[
-                 				 {'command': ['edit', 'destroy'], 'title': '&nbsp;', 'width': 250}, 
-                                 { 'field': 'no', 'title': 'NO' },
-                                 { 'field': 'name','title': '이름' },
-                                 { 'field': 'date','title': '날짜' }
-                              ]"
-                 data-bind="visible: isVisible,
-                 			source: products"
-                
-                 style="height: 790px">
-                 </div>
-                </div>
-                </div>
+            <div id="center-pane">
+            
+           	<!-- =============== page1 스케쥴러 등록 현황 satrt===================== -->
+            	<div class="pane-content" data-bind="visible : oneVisible">
+            		<p> 스케쥴러 등록 현황</p>
+            		<div data-role="grid"
+		                 data-editable="{mode:'popup',
+						                 window:{title:'상세 내용',
+						                 		animation: false,
+						                 		height:230,
+						                 		width:430,
+						                 		resizable: true},
+						                 template:kendo.template($('#popup-editor').html())}"
+		                 data-toolbar="['create' ]"
+		                 data-columns="[
+		                 				  
+		                                 { 'field': 'no', 'title': 'NO' },
+		                                 { 'field': 'name','title': '이름' },
+		                                 { 'field': 'date','title': '날짜' },
+		                                 {'command': ['edit', 'destroy'], 'title': '&nbsp;', 'width': 250}
+		                              ]"
+		                 data-bind="visible: isVisible,
+		                 			source: products"
+		                 style="height: 790px">
+                 	</div>
+            	</div>
+            <!-- =============== page1 스케쥴러 등록 현황 end ===================== -->
+            	
+            <!-- =============== page2 실행 진행 중 start ===================== --> 
+				<div class="pane-content" data-bind="visible : twoVisible">
+					<p> 실행 진행 중 </p>
+					<div data-role="grid"
+					      data-editable="{mode:'popup',
+									      window:{title:'상세 내용',
+									      		animation: false,
+									      		height:230,
+									      		width:430,
+									      		resizable: true},
+									      template:kendo.template($('#popup-editor').html())}"
+					      data-toolbar="['create' ]"
+					      data-columns="[
+					      				 {'command': ['edit', 'destroy'], 'title': '&nbsp;', 'width': 250}, 
+					                      { 'field': 'no', 'title': 'NO' },
+					                      { 'field': 'name','title': '이름' },
+					                      { 'field': 'date','title': '날짜' }
+					                   ]"
+					      data-bind="visible: isVisible,
+					      			source: products"
+					     
+					      style="height: 790px">
+				 </div>
+				</div>
+                <!-- =============== page2 실행 진행 중 end ===================== --> 
+           </div>
         </div>
-        </div>
-     </div>
-     
+       </div>
+    </div>
+</div>     
      <!-- data-editable popup template start -->
 <script id="popup-editor" type="text/x-kendo-template">
 
@@ -82,10 +113,10 @@
 <table>
 	<tr>
 		<td>
-			NO
+			<p style="text-align: right;">﻿NO</p>
 		</td>
 		<td>
-			<input data-role="numerictextbox" data-bind="value:no" />
+			<input data-bind="value:no" />
 		</td>
 		<td>
 		</td>
@@ -95,13 +126,13 @@
 	</tr>
 	<tr>
 		<td>
-			NAME
+			<p style="text-align: right;">﻿NAME</p>
 		</td>
 		<td>
 			<input data-bind="value:name" />
 		</td>
 		<td>
-			DATE
+			<p style="text-align: right;">﻿DATE</p>
 		</td>
 		<td>
 			<input data-bind="value:date" />
@@ -119,8 +150,25 @@
     var viewModel = kendo.observable({
     	//splitter
     	isVisible: true,//출력 유무??
-      
-        //panelbar
+    			
+    	oneVisible : true,
+    	twoVisible : false,
+    	
+    	 onSelect: function(e) {
+    		var panelBar = e.sender;
+            var text = panelBar.dataItem($(e.item)).name;
+            console.log(text);
+    		if(text=='스케쥴러 등록 현황'){   				
+       			viewModel.set('oneVisible',true);
+       			viewModel.set('twoVisible',false);
+    		}else if(text=='실행 진행 중'){
+    			viewModel.set('twoVisible',true);
+    			viewModel.set('oneVisible',false)
+    		}
+    		
+    		 // viewModel.set("twoVisible",!viewModel.get("twoVisible"));
+		},
+    	//panelbar
         files: kendo.observableHierarchy([
             { name: "스케쥴러 등록 현황"},
             { name: "실행 진행 중"}
@@ -138,12 +186,27 @@
 					{no:6,name:"바",date:"15-16-17"},
 					{no:7,name:"사",date:"16-17-18"},
 					]
+        }),
+        
+        products2: new kendo.data.DataSource({
+            
+            data:  [//localdata
+            		{no:1,name:"가나",date:"101-111-112"},
+					{no:2,name:"나다",date:"111-121-131"},
+					{no:3,name:"다라",date:"121-131-141"},
+					{no:4,name:"라마",date:"131-141-151"},
+					{no:5,name:"마바",date:"141-151-161"},
+					{no:6,name:"바사",date:"151-116-171"},
+					{no:7,name:"사아",date:"161-117-181"},
+					]
         })
+        
+		
     });
     
     kendo.bind($("#example"), viewModel);
 </script>
-</div>
+
 
 
 </body>
