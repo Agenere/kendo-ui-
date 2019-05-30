@@ -1,109 +1,268 @@
-
 <!DOCTYPE html>
 <html>
 <head>
-    <base href="https://demos.telerik.com/kendo-ui/splitter/mvvm">
+    <base href="https://demos.telerik.com/kendo-ui/grid/mvvm">
     <style>html { font-size: 14px; font-family: Arial, Helvetica, sans-serif; }</style>
     <title></title>
     <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2019.2.514/styles/kendo.common-material.min.css" />
+    <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2019.2.514/styles/kendo.rtl.min.css"/>
+    <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2019.2.514/styles/kendo.silver.min.css"/>
     <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2019.2.514/styles/kendo.material.min.css" />
     <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2019.2.514/styles/kendo.material.mobile.min.css" />
 
     <script src="https://kendo.cdn.telerik.com/2019.2.514/js/jquery.min.js"></script>
     <script src="https://kendo.cdn.telerik.com/2019.2.514/js/kendo.all.min.js"></script>
-    
-
-    <link rel="stylesheet" href="../content/shared/styles/examples-offline.css">
-    <script src="../content/shared/js/console.js"></script>
+       
 </head>
 <body>
+
 <div id="example">
-    <div class="demo-section k-content wide">
-        <h4>Resize or collapse a pane</h4>
-        <div data-role="splitter"
-             data-panes="[
-                { collapsible: false },
-                { collapsible: false, size: '70px' },
-                { collapsible: false, resizable: false, size: '70px' }
-             ]"
-             data-orientation="vertical"
-             data-bind="visible: isVisible, events: { resize: onResize }">
-            <div id="top-pane">
-                <div data-role="splitter"
-                     data-panes="[
-                        { collapsible: true },
-                        { collapsible: false },
-                        { collapsible: true }
-                     ]"
-                     data-bind="visible: isVisible, events: { resize: onResize, expand: onExpand, collapse: onCollapse }"
-                     style="height: 100%; width: 100%;">
-                    <div id="left-pane">
-                        <div class="pane-content">
-                            <h3>Inner splitter / left pane</h3>
-                            <p>Resizable and collapsible.</p>
-                        </div>
-                    </div>
-                    <div id="center-pane">
-                        <div class="pane-content">
-                            <h3>Inner splitter / center pane</h3>
-                            <p>Resizable only.</p>
-                        </div>
-                    </div>
-                    <div id="right-pane">
-                        <div class="pane-content">
-                            <h3>Inner splitter / right pane</h3>
-                            <p>Resizable and collapsible.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div id="middle-pane">
-                <div class="pane-content">
-                    <h3>Outer splitter / middle pane</h3>
-                    <p>Resizable only.</p>
-                </div>
-            </div>
-            <div id="bottom-pane">
-                <div class="pane-content">
-                    <h3>Outer splitter / bottom pane</h3>
-                    <p>Non-resizable and non-collapsible.</p>
-                </div>
-            </div>
+
+	<div class="demo-section k-content wide">    
+	 <div id="top-pane">
+		<div data-role="splitter"
+	                   data-panes="[
+				                    { collapsible: true,size : '15%' },
+				                    { collapsible: false },
+				                  ]"
+	                   data-bind="visible: isVisible"
+	                   style="height: 800px; width: 100%;">
+             
+			<div id="left-pane" >
+				<div class="pane-content">
+				      
+					<div class="files"
+				         data-role="panelbar"
+				         data-text-field="name"
+				         data-spritecssclass-field="type"
+				         data-bind="visible: isVisible,
+				                    source: files,
+				                    events: { select: onSelect }">
+					</div>
+				</div>				
+			</div>
+             
+            <div id="center-pane">
+            
+           	<!-- =============== page1 스케쥴러 등록 현황 satrt===================== -->
+            	<div class="pane-content" data-bind="visible : oneVisible">
+            		<p> 스케쥴러 등록 현황</p>
+            		<div data-role="grid"
+		                 data-editable="{mode:'popup',
+						                 window:{title:'수정 화면',
+						                 		animation: false,
+						                 		height:230,
+						                 		width:430,
+						                 		resizable: true},
+						                 template:kendo.template($('#popup-editor').html())}"
+		                 data-toolbar="['create' ]"
+		                 data-columns="[
+		                 				  
+	                                   { 'field': 'no', 'title': 'NO' },
+	                                   { 'field': 'name','title': '이름' },
+	                                   { 'field': 'date','title': '날짜' },
+	                                   {'command': ['edit', 'destroy'], 'title': '&nbsp;', 'width': 250}
+		                              ]"
+		                 data-bind="visible: isVisible,
+		                 			source: products"
+		                 style="height: 790px">
+                 	</div>
+            	</div>
+            <!-- =============== page1 스케쥴러 등록 현황 end ===================== -->
+            	
+            <!-- =============== page2 실행 진행 중 start ===================== --> 
+				<div class="pane-content" data-bind="visible : twoVisible">
+					<p> 실행 진행 중 </p>
+					<div data-role="grid"
+					      data-editable="{mode:'popup',
+									      window:{title:'수정 화면',
+									      		  animation: false,
+									      		  height:230,
+									      		  width:430,
+									      		  resizable: true},
+									     template:kendo.template($('#popup-editor').html())}"
+					      data-toolbar="['create']"
+					      data-columns="[
+					      				 {'command': ['edit', 'destroy'], 'title': '&nbsp;', 'width': 250}, 
+					                     { 'field': 'no', 'title': 'NO' },
+					                     { 'field': 'name','title': '이름' },
+					                     { 'field': 'date','title': '날짜' }
+					                   ]"
+					      data-bound="dataBound"
+					      data-bind="visible: isVisible,
+					      			source: products2"
+					     
+					      style="height: 790px">
+				 </div>
+				</div>
+                <!-- =============== page2 실행 진행 중 end ===================== --> 
+           </div>
         </div>
-        <h4 style="padding-top: 2em;">Console</h4>
-        <div class="console"></div>
+       </div>
     </div>
-    <div class="box wide">
-        <div class="box-col">
-            <h4>Configuration</h4>
-            <div>
-                <label><input type="checkbox" data-bind="checked: isVisible">Visible</label>
-            </div>
-        </div>
-        <div class="box-col">
-            <h4>Information</h4>
-            Kendo UI Splitter supports the
-            <a href="http://docs.telerik.com/kendo-ui/getting-started/framework/mvvm/bindings/events">events</a> and
-            <a href="http://docs.telerik.com/kendo-ui/getting-started/framework/mvvm/bindings/visible">visible</a> bindings.
-        </div>
-    </div>
+    <!-- window -->
+		
+	<div id="window" data-bind="visible : windowVisible">
+	
+		<h4> 더블클릭 팝업으로</h4>
+			<fieldset>
+			
+				<p >﻿NO</p>
+				<p style="text-align: right;"></p>
+				<p>﻿NAME</p>
+				<p style="text-align: right;"></p>
+				<p>﻿DATE</p>
+				<p style="text-align: right;"></p>
+			
+			</fieldset>
+	</div>
+
+    
+</div>     
+     <!-- data-editable popup template start -->
+<script id="popup-editor" type="text/x-kendo-template">
+
+<fieldset>
+
+
+<table>
+	<tr>
+		<td>
+			<p style="text-align: right;">﻿NO</p>
+		</td>
+		<td>
+			<input data-bind="value:no" />
+		</td>
+		<td>
+		</td>
+		<td>
+		</td>
+		
+	</tr>
+	<tr>
+		<td>
+			<p style="text-align: right;">﻿NAME</p>
+		</td>
+		<td>
+			<input data-bind="value:name" />
+		</td>
+		<td>
+			<p style="text-align: right;">﻿DATE</p>
+		</td>
+		<td>
+			<input data-bind="value:date" />
+		</td>
+	</tr>
+</table>
+
+</fieldset>
+
+
+</script>
+	<!-- data-editable popup template end -->
+    
 <script>
-    var viewModel = kendo.observable({
-        isVisible: true,
-        onResize: function(e) {
-            kendoConsole.log("event :: resize");
-        },
-        onExpand: function(e) {
-            kendoConsole.log("event :: expand (" + $(e.pane).text() + ")");
-        },
-        onCollapse: function(e) {
-            kendoConsole.log("event :: collapse (" + $(e.pane).text() + ")");
-        }
+	
+$(document).ready(function() {
+	$('table').on('dblclick','tr',function(){
+		
+		let td = $(this).children();	
+		let pp = $("#window > fieldset").children();
+		pp.eq(1).text(td.eq(0).text());
+		pp.eq(3).text(td.eq(1).text());
+		pp.eq(5).text(td.eq(2).text());
+		
+		//window
+	    var myWindow = $("#window")
+	    
+		 myWindow.kendoWindow({ //window 설정
+		        width: "600px",
+		        title: "상세내역이라고 해야되나?",
+		        visible: false,
+		        actions: [
+		            "Minimize",
+		            "Maximize",
+		            "Close"
+		        ],
+		        
+		        
+		    }).data("kendoWindow").center().open()
+		
+	})
+	
+	
+});
+	
+	
+	//MVVM wiewModel
+    let viewModel = kendo.observable({
+    	//window
+    	
+    	windowVisible : false,
+    	
+    	dataBound : function(e){
+    		colsole.log('gogogo');
+    		colsole.log(e);
+    	},
+    	
+    	//splitter
+    	isVisible: true,
+    			
+    	oneVisible: true, //출력 유무
+    	twoVisible: false,
+    	
+    	 onSelect: function(e) {
+    		let panelBar = e.sender;
+            let text = panelBar.dataItem($(e.item)).name;
+            console.log(text);
+            console.log(this);
+            console.log(viewModel);
+    		if(text=='스케쥴러 등록 현황'){   				
+    			this.set('oneVisible',true);
+    			this.set('twoVisible',false);
+    		}else if(text=='실행 진행 중'){
+    			this.set('twoVisible',true);
+    			this.set('oneVisible',false)
+    		}
+    		
+    		 // viewModel.set("twoVisible",!viewModel.get("twoVisible"));
+		},
+    	//panelbar
+        files: kendo.observableHierarchy([
+            { name: "스케쥴러 등록 현황"},
+            { name: "실행 진행 중"}
+        ]),
+        
+        //grid
+        products: new kendo.data.DataSource({
+          
+            data:  [//localdata
+            		{no:1,name:"가",date:"10-11-12"},
+					{no:2,name:"나",date:"11-12-13"},
+					{no:3,name:"다",date:"12-13-14"},
+					{no:4,name:"라",date:"13-14-15"},
+					{no:5,name:"마",date:"14-15-16"},
+					{no:6,name:"바",date:"15-16-17"},
+					{no:7,name:"사",date:"16-17-18"}
+					]
+        }),
+        
+        products2: new kendo.data.DataSource({  
+        	
+            data:  [//localdata
+            		{no:1,name:"가나",date:"101-111-112"},
+					{no:2,name:"나다",date:"111-121-131"},
+					{no:3,name:"다라",date:"121-131-141"},
+					{no:4,name:"라마",date:"131-141-151"},
+					{no:5,name:"마바",date:"141-151-161"},
+					{no:6,name:"바사",date:"151-116-171"},
+					{no:7,name:"사아",date:"161-117-181"}
+					]
+        })		
     });
+    
     kendo.bind($("#example"), viewModel);
 </script>
-</div>
-
 
 </body>
 </html>

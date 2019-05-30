@@ -1,5 +1,4 @@
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <base href="https://demos.telerik.com/kendo-ui/grid/mvvm">
@@ -13,8 +12,7 @@
 
     <script src="https://kendo.cdn.telerik.com/2019.2.514/js/jquery.min.js"></script>
     <script src="https://kendo.cdn.telerik.com/2019.2.514/js/kendo.all.min.js"></script>
-    
-    
+       
 </head>
 <body>
 
@@ -34,12 +32,12 @@
 				<div class="pane-content">
 				      
 					<div class="files"
-					          data-role="panelbar"
-					          data-text-field="name"
-					          data-spritecssclass-field="type"
-					          data-bind="visible: isVisible,
-					                     source: files,
-					                     events: { select: onSelect }">
+				         data-role="panelbar"
+				         data-text-field="name"
+				         data-spritecssclass-field="type"
+				         data-bind="visible: isVisible,
+				                    source: files,
+				                    events: { select: onSelect }">
 					</div>
 				</div>				
 			</div>
@@ -51,22 +49,24 @@
             		<p> 스케쥴러 등록 현황</p>
             		<div data-role="grid"
 		                 data-editable="{mode:'popup',
-						                 window:{title:'상세 내용',
+						                 window:{title:'수정 화면',
 						                 		animation: false,
 						                 		height:230,
 						                 		width:430,
 						                 		resizable: true},
 						                 template:kendo.template($('#popup-editor').html())}"
-		                 data-toolbar="['create' ]"
+		                 data-toolbar="['create']"
 		                 data-columns="[
-		                 				  
-		                                 { 'field': 'no', 'title': 'NO' },
-		                                 { 'field': 'name','title': '이름' },
-		                                 { 'field': 'date','title': '날짜' },
-		                                 {'command': ['edit', 'destroy'], 'title': '&nbsp;', 'width': 250}
+		                 				{'command': ['edit', 'destroy'], 'title': '&nbsp;', 'width': 250},  
+	                                   { 'field': 'no', 'title': 'NO' },
+	                                   { 'field': 'name','title': '이름' },
+	                                   {'field': 'content','title': '내용'},
+	                                   { 'field': 'date','title': '날짜' }
+	                                   
 		                              ]"
 		                 data-bind="visible: isVisible,
-		                 			source: products"
+		                 			source: products,
+		                 			events: { click: listener }"
 		                 style="height: 790px">
                  	</div>
             	</div>
@@ -77,21 +77,22 @@
 					<p> 실행 진행 중 </p>
 					<div data-role="grid"
 					      data-editable="{mode:'popup',
-									      window:{title:'상세 내용',
-									      		animation: false,
-									      		height:230,
-									      		width:430,
-									      		resizable: true},
-									      template:kendo.template($('#popup-editor').html())}"
-					      data-toolbar="['create' ]"
+									      window:{title:'수정 화면',
+									      		  animation: false,
+									      		  height:230,
+									      		  width:430,
+									      		  resizable: true},
+									     template:kendo.template($('#popup-editor').html())}"
+					      data-toolbar="['create']"
 					      data-columns="[
 					      				 {'command': ['edit', 'destroy'], 'title': '&nbsp;', 'width': 250}, 
-					                      { 'field': 'no', 'title': 'NO' },
-					                      { 'field': 'name','title': '이름' },
-					                      { 'field': 'date','title': '날짜' }
+					                     { 'field': 'no', 'title': 'NO' },
+					                     { 'field': 'name','title': '이름' },
+					                     {'field': 'content','title': '내용'},
+					                     { 'field': 'date','title': '날짜' } 
 					                   ]"
 					      data-bind="visible: isVisible,
-					      			source: products"
+					      			source: products2"
 					     
 					      style="height: 790px">
 				 </div>
@@ -101,14 +102,32 @@
         </div>
        </div>
     </div>
+    <!-- window -->
+		
+	<div id="window" data-bind="visible : windowVisible">
+	
+		<h4> 더블클릭 팝업으로</h4>
+			<fieldset>
+			
+				<p >﻿NO</p>
+				<p style="text-align: right;"></p>
+				<p>﻿NAME</p>
+				<p style="text-align: right;"></p>
+				<p>﻿CONTENT</p>
+				<p style="text-align: right;"></p>
+				<p>﻿DATE</p>
+				<p style="text-align: right;"></p>
+			
+			</fieldset>
+	</div>
+
+    
 </div>     
      <!-- data-editable popup template start -->
 <script id="popup-editor" type="text/x-kendo-template">
 
 <fieldset>
-	<legend>
-	Hello #= name # , 작성일 #= date #
-	</legend>
+
 
 <table>
 	<tr>
@@ -147,23 +166,63 @@
 	<!-- data-editable popup template end -->
     
 <script>
-    var viewModel = kendo.observable({
+	
+$(document).ready(function() {
+	$('table').on('dblclick','tr',function(){
+		console.log($(this).children());
+		let td = $(this).children();	
+		let pp = $("#window > fieldset").children();
+		
+		pp.eq(1).text(td.eq(1).text());
+		pp.eq(3).text(td.eq(2).text());
+		pp.eq(5).text(td.eq(3).text());
+		pp.eq(7).text(td.eq(4).text());
+		
+		//window
+	    var myWindow = $("#window")
+	    
+		 myWindow.kendoWindow({ //window 설정
+		        width: "600px",
+		        title: "상세내역이라고 해야되나?",
+		        visible: false,
+		        actions: [	"Minimize",
+				            "Maximize",
+				            "Close"		],
+		        
+		    }).data("kendoWindow").center().open()	
+	})
+	
+	
+});
+	
+	//MVVM wiewModel
+    let viewModel = kendo.observable({
+    	//window
+    	
+    	windowVisible : false,
+    	
+    	listener: function(e) {
+    		console.log('아아아');
+            console.log('Event: ' + e.type);
+            
+        },
+    	
     	//splitter
-    	isVisible: true,//출력 유무??
+    	isVisible: true,
     			
-    	oneVisible : true,
-    	twoVisible : false,
+    	oneVisible: true, //출력 유무
+    	twoVisible: false,
     	
     	 onSelect: function(e) {
-    		var panelBar = e.sender;
-            var text = panelBar.dataItem($(e.item)).name;
+    		let panelBar = e.sender;
+            let text = panelBar.dataItem($(e.item)).name;
             console.log(text);
     		if(text=='스케쥴러 등록 현황'){   				
-       			viewModel.set('oneVisible',true);
-       			viewModel.set('twoVisible',false);
+    			this.set('oneVisible',true);
+    			this.set('twoVisible',false);
     		}else if(text=='실행 진행 중'){
-    			viewModel.set('twoVisible',true);
-    			viewModel.set('oneVisible',false)
+    			this.set('twoVisible',true);
+    			this.set('oneVisible',false)
     		}
     		
     		 // viewModel.set("twoVisible",!viewModel.get("twoVisible"));
@@ -178,36 +237,33 @@
         products: new kendo.data.DataSource({
           
             data:  [//localdata
-            		{no:1,name:"가",date:"10-11-12"},
-					{no:2,name:"나",date:"11-12-13"},
-					{no:3,name:"다",date:"12-13-14"},
-					{no:4,name:"라",date:"13-14-15"},
-					{no:5,name:"마",date:"14-15-16"},
-					{no:6,name:"바",date:"15-16-17"},
-					{no:7,name:"사",date:"16-17-18"},
+            		{no:1,name:"가",content:"가마니",date:"10-11-12"},
+					{no:2,name:"나",content:"나무꾼",date:"11-12-13"},
+					{no:3,name:"다",content:"다리미",date:"12-13-14"},
+					{no:4,name:"라",content:"라디오",date:"13-14-15"},
+					{no:5,name:"마",content:"마동석",date:"14-15-16"},
+					{no:6,name:"바",content:"바이퍼",date:"15-16-17"},
+					{no:7,name:"사",content:"사마귀",date:"16-17-18"}
 					]
         }),
         
-        products2: new kendo.data.DataSource({
-            
+        products2: new kendo.data.DataSource({  
+        	
             data:  [//localdata
-            		{no:1,name:"가나",date:"101-111-112"},
-					{no:2,name:"나다",date:"111-121-131"},
-					{no:3,name:"다라",date:"121-131-141"},
-					{no:4,name:"라마",date:"131-141-151"},
-					{no:5,name:"마바",date:"141-151-161"},
-					{no:6,name:"바사",date:"151-116-171"},
-					{no:7,name:"사아",date:"161-117-181"},
+            		{no:1,name:"가나",content:"다다다다",date:"101-111-112"},
+					{no:2,name:"나다",content:"가가가가",date:"111-121-131"},
+					{no:3,name:"다라",content:"마마마마",date:"121-131-141"},
+					{no:4,name:"라마",content:"다다다다",date:"131-141-151"},
+					{no:5,name:"마바",content:"사사사사",date:"141-151-161"},
+					{no:6,name:"바사",content:"마마마마",date:"151-116-171"},
+					{no:7,name:"사아",content:"자자자자",date:"161-117-181"}
 					]
-        })
+        }),
         
-		
     });
     
     kendo.bind($("#example"), viewModel);
 </script>
-
-
 
 </body>
 </html>

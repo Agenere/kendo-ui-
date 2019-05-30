@@ -1,253 +1,132 @@
+
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+    <base href="https://demos.telerik.com/kendo-ui/mvvm/elements">
+    <style>html { font-size: 14px; font-family: Arial, Helvetica, sans-serif; }</style>
+    <title></title>
+    <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2019.2.514/styles/kendo.common-material.min.css" />
+    <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2019.2.514/styles/kendo.material.min.css" />
+    <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2019.2.514/styles/kendo.material.mobile.min.css" />
+
+    <script src="https://kendo.cdn.telerik.com/2019.2.514/js/jquery.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2019.2.514/js/kendo.all.min.js"></script>
+    
+
 </head>
 <body>
-    <form>
-        <fieldset id="loginInfo">
-            <legend>
-                01 로그인 정보
-            </legend>
-            <table>
-                <tr><!-- 아이디 -->
-                    <td>
-                        <img src="./img/check_icon.gif">
-                    </td>
-                    <td>
-                        <img src="./img/idsearch_text01.gif">
-                    </td>
-                    <td>
-                        <input type="text" placeholder="영문이름만사용" name="identity">
-                    </td>
-                    <td>
-                        <input type="button" value="중복확인">
-                    </td>
-                    <td>
-                        <font>띄어쓰기 없는 영문소문자,숫자조합</font>
-                    </td>        
-                </tr>
-                <tr><!-- 비밀번호 -->
-                    <td>
-                        <img src="./img/check_icon.gif">
-                    </td>
-                    <td>
-                        <img src="./img/idsearch_text02.gif">
-                    </td>
-                    <td>
-                        <input type="password" id="password" name="password">
-                    </td>
-                    <td colspan="2">
-                        <font>띄어쓰기 없는 영문소문자,숫자조합</font>
-                    </td>
-                </tr>
-                <tr><!-- 비밀번호 확인 -->    
-                    <td>
-                        <img src="./img/check_icon.gif">
-                    </td>
-                    <td>
-                        <img src="./img/idsearch_text03.gif">
-                    </td>
-                    <td>
-                        <input type="password" name="repassword">
-                    </td>
-                    <td colspan="2">
-                        <font>비밀번호를 한번더 입력해주세요</font>
-                    </td>
-                </tr>                            
-            </table>
-        </fieldset>
-        <!-- 02 개인 정보 -->
-        <fieldset>
-            <legend>
-                02 개인 정보
-            </legend>
-            <table>
-                <tr><!-- 이름 -->
-                    <td class="td0">
-                        <img src="./img/check_icon.gif">
-                    </td>
-                    <td class="td1">
-                        <img src="./img/idsearch_text06.gif">
-                    </td>
-                    <td class="td2">
-                        <input type="text" id="name" name="name">
-                    </td>
-                    <td>
-                    </td>
-                    <td>
-                    </td>     
-                </tr>                
-                <tr><!-- 주민번호 -->                    
-                    <td>                    
-                        <img src="./img/idsearch_text07.gif">
-                    </td>
-                    <td>
-                        <input type="text" name="jumin1" size="15" maxlength="6">
-                        -    <input type="password" name="jumin2" size="15" maxlength="7">
-                    </td>
-                </tr>
-                <tr><!-- birthday -->
-                    <td>
-                    </td>
-                    <td>
-                        <img src="./img/idsearch_text20.gif">
-                    </td>
-                    <td>
-                        <input type="text" id="brithday1" name="brithday1" size="6" maxlength="4"> 년
-                        <input type="text" id="brithday2" name="brithday2" size="6" maxlength="2"> 년
-                        <input type="text" id="brithday3" name="brithday3" size="6" maxlength="2"> 년
-                    </td>
-                    <td>
-                        <input type="radio" name="mtype" value="solar">양력
-                        <input type="radio" name="mtype" value="lunar">음력
-                    </td>
-                </tr>
-                <tr><!-- 전화번호 -->    
-                    <td>
-                        <img src="./img/check_icon.gif">
-                    </td>
-                    <td>
-                        <img src="./img/idsearch_text08.gif">
-                    </td>
-                    <td>
-                        <select id="phone1" name="phone1">
-                            <option value="">==선택==</option>
-                            <option value="02">서울(02)</option>
-                            <option value="051">부산(051)</option>
-                            <option value="053">대구(053)</option>
-                            <option value="032">인천(032)</option>                            
-                            
-                        </select> -
-                        <input type="tel" id="phone2" name="phone2" size="6" maxlength="4"> -
-                        <input type="tel" id="phone3" name="phone3" size="6" maxlength="4">
-                    </td>
-                    <td>
-                        <input type="radio" name="telplace" id="telplace" value="office">자택
-                        <input type="radio" name="telplace" id="telplace" value="home">직장
-                    </td>
-                </tr>
-                <tr><!-- 주소2 -->
-                    <td>
-                        <input type="text" name="addr1" id="addr1" size="40">
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <input type="text" name="addr2" id="addr2" size="40">
-                    </td>
-                </tr>
-                                                    
-            </table>
-        </fieldset>
-        <fieldset id="persnolInfo">
-            <legend>03 기타정보
-            </legend>
-            <table>
-                <tr>
- 
-                    <td>
-                        <img src="./img/idsearch_text12.gif">
-                    </td>
-                    <td>
-                        <select name="job" id="job">
-                            <option value="" selected="selected">==선택하세요==</option>
-                            <option value="job1">회사원</option>
-                            <option value="job2">연구전문직</option>
-                            <option value="job3">교수</option>                
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                    <img src="./img/idsearch_text13.gif">
-                    </td>
-                    <td>
-                        <input type="text" id="company" name="company" size="20">
-                        <input type="button" value="찾기">
-                    </td>
-                    <td>
-                        <input type="radio" name="companyname" id="companyname" value="office">자택
-                        <input type="radio" name="companyname" id="companyname" value="home">직장
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <img src="./img/join_companyNum.gif">
-                    </td>
-                    <td>
-                        <input type="text" id="compNo" name="compNo" size="20"> 
-                    </td>
-                </tr>
-                <tr>
- 
-                    <td>
-                        <img src="./img/idsearch_text14.gif">
-                    </td>
-                    <td>
-                        <input type="tel" id="partname" name="partname" size="20">
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <img src="./img/idsearch_text15.gif">
-                    </td>
-                    <td>
-                        <input type="text" id="compostion" name="compostion" size="20">
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <img src="./img/idsearch_text16.gif">
-                    </td>
-                    <td>
-                        <select name="interest" id="interest">
-                        <option value="" selected="selected">==선택하세요==</option>
-                        <option value="inter1">벤처창업</option>
-                        <option value="inter2">business동향</option>                        
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <img src="./img/idsearch_text17.gif">
-                    </td>
-                    <td>
-                        <input type="radio" name="webzine" id="webzine" value="true">수신동의
-                        <input type="radio" name="webzine" id="webzine" value="false">수신하지않음
-                    </td>
-                    <td>
-                        (TP에서 제공하는 Webzine 서비스를 받아보시겠습니까?)
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <img src="./img/idsearch_text18.gif">
-                    </td>
-                    <td>
-                        <input type="text" name="homepage" id="homepage" size="47">
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <img src="./img/idsearch_text19.gif">
-                    </td>
-                    <td>
-                        <textarea name="self" id="self"></textarea>
-                    </td>
-                </tr>
-            </table>
-        </fieldset>
- 
-        <fieldset id="lastfield">
-            <input type="button" value="가입">
-            <input type="button" value="취소">
-        </fieldset>
+<div id="example">
+    <div class="demo-section k-content wide">
+        <div>
+            <ul class="fieldlist">
+                 <li><h4>Text</h4> <input type="text" data-bind="value: textValue" class="k-textbox" /></li>
+                 <li><h4>Text with update on keyup event</h4> <input type="text" data-value-update="keyup" data-bind="value: textValue" class="k-textbox" /></li>
+                 <li><h4>Textarea</h4> <textarea data-bind="value: textareaValue" class="k-textbox" style="height: 40px; width: 140px;"></textarea></li>
+                 <li><h4>Checkbox</h4>
+                     <label>
+                         <input type="checkbox" data-bind="checked: checkboxValue" />Check
+                     </label>
+                 </li>
+            </ul>
+        </div>
+        <div>
+            <ul class="fieldlist">
+                 <li><h4>Radio</h4>
+                     <label>
+                         <input type="radio" name="fruit" value="Apple"
+                                data-bind="checked: radioValue" />Apple
+                     </label>
+                     <label>
+                         <input type="radio" name="fruit" value="Banana"
+                                data-bind="checked: radioValue" />Banana
+                     </label>
+                     <label>
+                         <input type="radio" name="fruit" value="Orange"
+                                data-bind="checked: radioValue" />Orange
+                     </label>
+                 </li>
+                 <li><h4>Checkbox list</h4>
+                     <label>
+                         <input type="checkbox" value="Apple"
+                                data-bind="checked: checkboxListValue" />Apple
+                     </label>
+                     <label>
+                         <input type="checkbox" value="Banana"
+                                data-bind="checked: checkboxListValue" />Banana
+                     </label>
+                     <label>
+                         <input type="checkbox" value="Orange"
+                                data-bind="checked: checkboxListValue" />Orange
+                     </label>
+                 </li>
+                 <li><h4>Select</h4> <select data-bind="source: fruits, value: selectValue" style="width: 147px;"></select></li>
+                 <li><h4>Multiple select</h4> <select multiple data-bind="source: fruits, value: multipleSelectValue" style="width: 147px;"></select></li>
+            </ul>
+        </div>
+        <div>
+            <h4>Current view model state</h4>
+            <pre class="prettyprint">
+{
+    textValue: <span data-bind="text: textValue"></span>,
+    textareaValue: <span data-bind="text: textareaValue"></span>,
+    checkboxValue: <span data-bind="text: checkboxValue"></span>,
+    radioValue: <span data-bind="text: radioValue"></span>,
+    checkBoxListValue: [<span data-bind="text: displayCheckBoxListValue"></span>],
+    selectValue: <span data-bind="text: selectValue"></span>,
+    multipleSelectValue: [<span data-bind="text: displayMultipleSelectValue"></span>]
+}
+            </pre>
+        </div>
+    </div>
     
+    <script>
+        $(document).ready(function() {
+            var viewModel = kendo.observable({
+                textValue: "Text value",
+                textareaValue: "Textarea value",
+                checkboxValue: false,
+                radioValue: "Apple",
+                checkboxListValue: ["Apple"],
+                multipleSelectValue: ["Apple"],
+                fruits:["Apple", "Banana", "Orange"],
+                selectValue: "Apple",
+                displayCheckBoxListValue: function() {
+                    return this.get("checkboxListValue").join(", ");
+                },
+                displayMultipleSelectValue: function() {
+                    return this.get("multipleSelectValue").join(", ");
+                }
+            });
+
+            kendo.bind($("div.demo-section"), viewModel);
+        });
+    </script>
     
-    </form>
-    
- 
+    <style>      
+        .demo-section > div {
+            float: left;
+            margin-bottom: 2em;
+        }
+        .fieldlist {
+            margin: 0 3em 0 0;
+            padding: 0;
+        }
+
+        .fieldlist li {
+            list-style: none;
+            padding-bottom: 1.5em;
+            text-align: left;
+        }
+
+        .prettyprint {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            overflow: auto;
+            padding: 5px;
+        }
+    </style>
+</div>
+
+
 </body>
 </html>
