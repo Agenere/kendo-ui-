@@ -54,4 +54,10 @@ public class SmapleController {
 		System.out.println("ss4 실행");
 		return "sample4";
 	}
+	
+	@GetMapping("/ss5")
+	public String ss5() {
+		System.out.println("ss5 실행");
+		return "sample5";
+	}
 }

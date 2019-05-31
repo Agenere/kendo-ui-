@@ -55,16 +55,18 @@
 						                 		width:430,
 						                 		resizable: true},
 						                 template:kendo.template($('#popup-editor').html())}"
-		                 data-toolbar="['create' ]"
+		                 data-toolbar="['create']"
 		                 data-columns="[
-		                 				  
+		                 				{'command': ['edit', 'destroy'], 'title': '&nbsp;', 'width': 250},  
 	                                   { 'field': 'no', 'title': 'NO' },
 	                                   { 'field': 'name','title': '이름' },
-	                                   { 'field': 'date','title': '날짜' },
-	                                   {'command': ['edit', 'destroy'], 'title': '&nbsp;', 'width': 250}
+	                                   {'field': 'content','title': '내용'},
+	                                   { 'field': 'date','title': '날짜' }
+	                                   
 		                              ]"
 		                 data-bind="visible: isVisible,
-		                 			source: products"
+		                 			source: products,
+		                 			events: { click: listener }"
 		                 style="height: 790px">
                  	</div>
             	</div>
@@ -86,9 +88,9 @@
 					      				 {'command': ['edit', 'destroy'], 'title': '&nbsp;', 'width': 250}, 
 					                     { 'field': 'no', 'title': 'NO' },
 					                     { 'field': 'name','title': '이름' },
-					                     { 'field': 'date','title': '날짜' }
+					                     {'field': 'content','title': '내용'},
+					                     { 'field': 'date','title': '날짜' } 
 					                   ]"
-					      data-bound="dataBound"
 					      data-bind="visible: isVisible,
 					      			source: products2"
 					     
@@ -110,6 +112,8 @@
 				<p >﻿NO</p>
 				<p style="text-align: right;"></p>
 				<p>﻿NAME</p>
+				<p style="text-align: right;"></p>
+				<p>﻿CONTENT</p>
 				<p style="text-align: right;"></p>
 				<p>﻿DATE</p>
 				<p style="text-align: right;"></p>
@@ -165,12 +169,14 @@
 	
 $(document).ready(function() {
 	$('table').on('dblclick','tr',function(){
-		
+		console.log($(this).children());
 		let td = $(this).children();	
 		let pp = $("#window > fieldset").children();
-		pp.eq(1).text(td.eq(0).text());
-		pp.eq(3).text(td.eq(1).text());
-		pp.eq(5).text(td.eq(2).text());
+		
+		pp.eq(1).text(td.eq(1).text());
+		pp.eq(3).text(td.eq(2).text());
+		pp.eq(5).text(td.eq(3).text());
+		pp.eq(7).text(td.eq(4).text());
 		
 		//window
 	    var myWindow = $("#window")
@@ -179,20 +185,15 @@ $(document).ready(function() {
 		        width: "600px",
 		        title: "상세내역이라고 해야되나?",
 		        visible: false,
-		        actions: [
-		            "Minimize",
-		            "Maximize",
-		            "Close"
-		        ],
+		        actions: [	"Minimize",
+				            "Maximize",
+				            "Close"		],
 		        
-		        
-		    }).data("kendoWindow").center().open()
-		
+		    }).data("kendoWindow").center().open()	
 	})
 	
 	
 });
-	
 	
 	//MVVM wiewModel
     let viewModel = kendo.observable({
@@ -200,10 +201,11 @@ $(document).ready(function() {
     	
     	windowVisible : false,
     	
-    	dataBound : function(e){
-    		colsole.log('gogogo');
-    		colsole.log(e);
-    	},
+    	listener: function(e) {
+    		console.log('아아아');
+            console.log('Event: ' + e.type);
+            
+        },
     	
     	//splitter
     	isVisible: true,
@@ -215,8 +217,6 @@ $(document).ready(function() {
     		let panelBar = e.sender;
             let text = panelBar.dataItem($(e.item)).name;
             console.log(text);
-            console.log(this);
-            console.log(viewModel);
     		if(text=='스케쥴러 등록 현황'){   				
     			this.set('oneVisible',true);
     			this.set('twoVisible',false);
@@ -237,28 +237,29 @@ $(document).ready(function() {
         products: new kendo.data.DataSource({
           
             data:  [//localdata
-            		{no:1,name:"가",date:"10-11-12"},
-					{no:2,name:"나",date:"11-12-13"},
-					{no:3,name:"다",date:"12-13-14"},
-					{no:4,name:"라",date:"13-14-15"},
-					{no:5,name:"마",date:"14-15-16"},
-					{no:6,name:"바",date:"15-16-17"},
-					{no:7,name:"사",date:"16-17-18"}
+            		{no:1,name:"가",content:"가마니",date:"10-11-12"},
+					{no:2,name:"나",content:"나무꾼",date:"11-12-13"},
+					{no:3,name:"다",content:"다리미",date:"12-13-14"},
+					{no:4,name:"라",content:"라디오",date:"13-14-15"},
+					{no:5,name:"마",content:"마동석",date:"14-15-16"},
+					{no:6,name:"바",content:"바이퍼",date:"15-16-17"},
+					{no:7,name:"사",content:"사마귀",date:"16-17-18"}
 					]
         }),
         
         products2: new kendo.data.DataSource({  
         	
             data:  [//localdata
-            		{no:1,name:"가나",date:"101-111-112"},
-					{no:2,name:"나다",date:"111-121-131"},
-					{no:3,name:"다라",date:"121-131-141"},
-					{no:4,name:"라마",date:"131-141-151"},
-					{no:5,name:"마바",date:"141-151-161"},
-					{no:6,name:"바사",date:"151-116-171"},
-					{no:7,name:"사아",date:"161-117-181"}
+            		{no:01,name:"가나",content:"다다다다",date:"101-111-112"},
+					{no:02,name:"나다",content:"가가가가",date:"111-121-131"},
+					{no:03,name:"다라",content:"마마마마",date:"121-131-141"},
+					{no:04,name:"라마",content:"다다다다",date:"131-141-151"},
+					{no:05,name:"마바",content:"사사사사",date:"141-151-161"},
+					{no:06,name:"바사",content:"마마마마",date:"151-116-171"},
+					{no:07,name:"사아",content:"자자자자",date:"161-117-181"}
 					]
-        })		
+        }),
+        
     });
     
     kendo.bind($("#example"), viewModel);
