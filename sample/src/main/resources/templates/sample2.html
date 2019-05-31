@@ -103,45 +103,25 @@
        </div>
     </div>
     
-    <!-- window MVVM 적용 해보기-->
-		
-	<div data-role="window"
-         data-title="더블클릭 윈도우 창"
-         data-width="600"
-         data-actions="['Minimize',
-    					'Maximize',
-    					'Close']"
-    	
-         data-height="400"
-         data-bind="visible: windowVisible,
-					source: isdataBound.td,
-                    enabled: isEnabled">
-     
-       
-    </div>
-
-    
-</div>  
-
-<script id="window-template" type="text/x-kendo-template">
-
-<h4> 더블클릭 팝업으로</h4>
+    <!-- window 적용 해보기-->
+		<div id="window">
+			<h4> 더블클릭 팝업으로</h4>
 			<fieldset>
 			
 				<p>﻿NO</p>
-				<p style="text-align: right;" data-bind="text: no"></p>
+				<p style="text-align: right;" data-bind="text: selected.no"></p>
 				<p>﻿NAME</p>
-				<p style="text-align: right;"></p>
+				<p style="text-align: right;" data-bind="text: selected.name"></p>
 				<p>﻿CONTENT</p>
-				<p style="text-align: right;" data-bind="text: content"></p>
+				<p style="text-align: right;" data-bind="text: selected.content"></p>
 				<p>﻿DATE</p>
-				<p style="text-align: right;">#= date#</p>
+				<p style="text-align: right;" data-bind="text: selected.date"></p>
 			
 			</fieldset>
-
-
-</script>
-
+		</div>
+			
+    
+</div>  
 
      <!-- grid data-editable popup template start -->
 <script id="popup-editor" type="text/x-kendo-template">
@@ -187,27 +167,32 @@
 	//MVVM wiewModel
     let viewModel = kendo.observable({
     	//window
+    	selected:{},
     	
-    	windowVisible : false,
-    	
-    	isdataBound : function(e) {
+    	isdataBound : function(e) {//grid 시작시 대기상태
     		
     		console.log('grid event 대기');
-			let td = null;
+    		
+    		$("#window").kendoWindow({ //create a window
+    			width: "600px",
+    			title: "되긴 했지만 아직도 모르겟다.",
+   	        	visible: false,
+   	        	actions: [
+                    "Minimize",
+                    "Maximize",
+                    "Close"
+                ]
+   	       });
+    		
     	 	  $("tbody > tr").dblclick( function(e) {
     	 		console.log('dblclick event ');
     			let uid = $(this).find('tr[data-uid]').context.dataset.uid;//tr의 uid 가져오기    			
     			console.log(uid);
-    			let tr = viewModel.products.getByUid(uid)
-    			console.log(tr.no);
-    			viewModel.set('isdataBound.td',new kendo.data.DataSource({//이거 아닌거 같은데????? ....
-    		          
-    	            data:  [{no:tr.no,name:tr.name,content:tr.content,date:tr.date}]
-    	        }));//해당 ui의 정보 가져오기와서 셋팅
-    			
-    			viewModel.set('windowVisible',true);
-    			
-    			}); 
+    			let model = viewModel.products.getByUid(uid)
+    			viewModel.set("selected", model);//update 
+    			$("#window").data("kendoWindow").open().center();//창 오픈
+				
+    			});  
     	 	
         },
     	
