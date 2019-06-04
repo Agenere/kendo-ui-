@@ -114,7 +114,7 @@
 						                 			events: { dataBound : isTapDataBound }" 
 						                 style="height: 600px">
 				                 	</div>
-				            	<div id="windowTap2"></div>
+				            		<div id="windowTap2"></div>
 						    </div>
 						    <div><!-- body 3 -->
 						        body 3
@@ -137,30 +137,27 @@
 	
 			<h4>ComboBox</h4>
 			<input data-role="combobox"
-                   data-placeholder="가나다라마바사"
+                   data-placeholder="힝~"
                    data-text-field="content"
                    data-value-field="name"
                    data-bind="value: selectedProduct,
                               source: products2,
                               visible: isVisible,
-                              enabled: isEnabled,
                               events: {
-                                change: onChange,
-                                open: onOpen,
-                                close: onClose
+                                change: onChange
                               }"
                    style="width: 100%"
             />
 			<fieldset>
 			
 				<p>NO</p>
-				<p style="text-align: right;" data-bind="text: no"></p>
+				<p style="text-align: right;" data-bind="text: comboBoxData.no"></p>
 				<p>NAME</p>
-				<p style="text-align: right;" data-bind="text: name"></p>
+				<p style="text-align: right;" data-bind="text: comboBoxData.name"></p>
 				<p>CONTENT</p>
-				<p style="text-align: right;" data-bind="text: content"></p>
+				<p style="text-align: right;" data-bind="text: comboBoxData.content"></p>
 				<p>DATE</p>
-				<p style="text-align: right;" data-bind="text: date"></p>
+				<p style="text-align: right;" data-bind="text: comboBoxData.date"></p>
 			
 			</fieldset>
 		
@@ -240,10 +237,10 @@
 //     			let uid = $(this).find('tr[data-uid]').context.dataset.uid;//tr의 uid 가져오기    			
 //     			var model = viewModel.products.getByUid(uid);
     			
-    			var model = grid.dataItem(this);//데이터 찾기 // dblclick(tr) grid table row data = this
+    			let model = grid.dataItem(this);//데이터 찾기 // dblclick(tr) grid table row data = this
 //     			viewModel.set("selected", model);//update 
     			
-    			var window = $('#window').kendoWindow({ 
+    			let window = $('#window').kendoWindow({ 
         			width: "600px",
         			title: "되긴 했지만 아직도 모르겟다.",
         			modal: true,
@@ -267,14 +264,13 @@
         
         selectedProduct: null,
         
-        isPrimitive: false,
+        comboBoxData:{},
         
         primitiveChanged: function() {
-            this.set("selectedProduct", null);
+        	viewModel.set("selectedProduct", null);
         },
-        displaySelectedProduct: function() {
-            var selectedProduct = this.get("selectedProduct");
-            return kendo.stringify(selectedProduct, null, 4);
+        onChange: function() {
+        	viewModel.set("comboBoxData",viewModel.get("selectedProduct"));
         },
         
         isTapDataBound: function(e){ //tap grid
@@ -283,9 +279,11 @@
         	let grid = e.sender;
         	
         	grid.tbody.find('tr').dblclick( function(e) {
+        		let model = grid.dataItem(this);
+        		viewModel.set('comboBoxData',model);//클릭한 정보를 
         		
         		console.log('tap2 grid row dblclick event ');       		
-	        	$('#windowTap2').kendoWindow({
+	        	let windowTap2 = $('#windowTap2').kendoWindow({
 	        		
 	        		width: "600px",
         			title: "tap2 grid window",
