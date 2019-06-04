@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <base href="https://demos.telerik.com/kendo-ui/grid/mvvm">
+   	<base href="https://demos.telerik.com/kendo-ui/tabstrip/mvvm">
     <style>html { font-size: 14px; font-family: Arial, Helvetica, sans-serif; }</style>
     <title></title>
     <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2019.2.514/styles/kendo.common-material.min.css" />
@@ -12,6 +12,7 @@
 
     <script src="https://kendo.cdn.telerik.com/2019.2.514/js/jquery.min.js"></script>
     <script src="https://kendo.cdn.telerik.com/2019.2.514/js/kendo.all.min.js"></script>
+    
        
 </head>
 <body>
@@ -26,7 +27,7 @@
 				                    { collapsible: false },
 				                  ]"
 	                   data-bind="visible: isVisible"
-	                   style="height: 800px; width: 100%;">
+	                   style="height: 900px; width: 100%;">
              
 			<div id="left-pane" >
 				<div class="pane-content">
@@ -44,8 +45,8 @@
              
             <div id="center-pane">
             
-           	<!-- =============== page1 스케쥴러 등록 현황 satrt===================== -->
-            	<div class="pane-content" data-bind="visible : oneVisible">
+           		<!-- =============== grid start===================== -->
+            	<div class="pane-content" data-bind="visible : gridVisible">
             		<p> 스케쥴러 등록 현황</p>
             		<div data-role="grid"
 		                 data-editable="{mode:'popup',
@@ -62,7 +63,6 @@
 	                                   { 'field': 'name','title': '이름' },
 	                                   {'field': 'content','title': '내용'},
 	                                   { 'field': 'date','title': '날짜' }
-	                                   
 		                              ]"
 		                 data-bind="visible: isVisible,
 		                 			source: products,
@@ -70,58 +70,119 @@
 		                 style="height: 790px">
                  	</div>
             	</div>
-            <!-- =============== page1 스케쥴러 등록 현황 end ===================== -->
+          		<!-- =============== grid end ===================== -->
             	
-            <!-- =============== page2 실행 진행 중 start ===================== --> 
-				<div class="pane-content" data-bind="visible : twoVisible">
-					<p> 실행 진행 중 </p>
-					<div data-role="grid"
-					      data-editable="{mode:'popup',
-									      window:{title:'수정 화면',
-									      		  animation: false,
-									      		  height:230,
-									      		  width:430,
-									      		  resizable: true},
-									     template:kendo.template($('#popup-editor').html())}"
-					      data-toolbar="['create']"
-					      data-columns="[
-					      				 {'command': ['edit', 'destroy'], 'title': '&nbsp;', 'width': 250}, 
-					                     { 'field': 'no', 'title': 'NO' },
-					                     { 'field': 'name','title': '이름' },
-					                     {'field': 'content','title': '내용'},
-					                     { 'field': 'date','title': '날짜' } 
-					                   ]"
-					      data-bind="visible: isVisible,
-					      			source: products2"
-					     
-					      style="height: 790px">
-				 </div>
+            
+                
+                <!-- =============== tapStrip  start ===================== --> 
+				<div class="demo-section k-content" data-bind="visible: tapVisible">
+					<div>
+						<h4>Select a tab</h4>
+						<div data-role="tabstrip"
+						     data-bind="visible: isVisible">
+						    <ul>
+						        <li class="k-state-active">
+						            tap 1
+						        </li>
+						        <li>
+						            tap 2 - grid
+						        </li>
+						        <li>
+						            tap 3
+						        </li>
+						        
+						    </ul>
+						    <div> <!-- body 1 -->
+						        <p>body 1</p>
+						    </div>
+						    <div><!-- body 2 -->
+						       
+				            		<p>tap grid</p>
+				            		<div id="tap2"
+				            		   	 data-role="grid"
+						                 data-editable="{mode:'popup'}"
+						                 data-toolbar="['create']"
+						                 data-columns="[
+						                 				{'command': ['edit', 'destroy'], 'title': '&nbsp;', 'width': 250},  
+					                                   { 'field': 'no', 'title': 'NO' },
+					                                   { 'field': 'name','title': '이름' },
+					                                   {'field': 'content','title': '내용'},
+					                                   { 'field': 'date','title': '날짜' }
+						                              ]"
+						                 data-bind="visible: isVisible,
+						                 			source: products,
+						                 			events: { dataBound : isTapDataBound }" 
+						                 style="height: 600px">
+				                 	</div>
+				            	<div id="windowTap2"></div>
+						    </div>
+						    <div><!-- body 3 -->
+						        body 3
+						    </div>
+						   
+						</div>
+					</div>
 				</div>
-                <!-- =============== page2 실행 진행 중 end ===================== --> 
+                 <!-- =============== tapStrip 실행 진행 중 start ===================== --> 
            </div>
         </div>
        </div>
     </div>
+    <div id="window"></div>
+    		
     
-    <!-- window 적용 해보기-->
-		<div id="window">
+</div> 
+
+<script id="tap2ComboBoxWindowTemplate" type="text/x-kendo-template">
+	
+			<h4>ComboBox</h4>
+			<input data-role="combobox"
+                   data-placeholder="가나다라마바사"
+                   data-text-field="content"
+                   data-value-field="name"
+                   data-bind="value: selectedProduct,
+                              source: products2,
+                              visible: isVisible,
+                              enabled: isEnabled,
+                              events: {
+                                change: onChange,
+                                open: onOpen,
+                                close: onClose
+                              }"
+                   style="width: 100%"
+            />
+			<fieldset>
+			
+				<p>NO</p>
+				<p style="text-align: right;" data-bind="text: no"></p>
+				<p>NAME</p>
+				<p style="text-align: right;" data-bind="text: name"></p>
+				<p>CONTENT</p>
+				<p style="text-align: right;" data-bind="text: content"></p>
+				<p>DATE</p>
+				<p style="text-align: right;" data-bind="text: date"></p>
+			
+			</fieldset>
+		
+</script>
+ 
+<script id="windowTemplate" type="text/x-kendo-template">
+		<div>
 			<h4> 더블클릭 팝업으로</h4>
 			<fieldset>
 			
-				<p>﻿NO</p>
-				<p style="text-align: right;" data-bind="text: selected.no"></p>
-				<p>﻿NAME</p>
-				<p style="text-align: right;" data-bind="text: selected.name"></p>
-				<p>﻿CONTENT</p>
-				<p style="text-align: right;" data-bind="text: selected.content"></p>
-				<p>﻿DATE</p>
-				<p style="text-align: right;" data-bind="text: selected.date"></p>
+				<p>NO</p>
+				<p style="text-align: right;" data-bind="text: no"></p>
+				<p>NAME</p>
+				<p style="text-align: right;" data-bind="text: name"></p>
+				<p>CONTENT</p>
+				<p style="text-align: right;" data-bind="text: content"></p>
+				<p>DATE</p>
+				<p style="text-align: right;" data-bind="text: date"></p>
 			
 			</fieldset>
 		</div>
-			
-    
-</div>  
+</script>
 
      <!-- grid data-editable popup template start -->
 <script id="popup-editor" type="text/x-kendo-template">
@@ -166,53 +227,101 @@
 	
 	//MVVM wiewModel
     let viewModel = kendo.observable({
-    	//window
-    	selected:{},
     	
+    	//window
     	isdataBound : function(e) {//grid 시작시 대기상태
-    		
+    		// e.data = this
+    		let grid = e.sender;
+ 
     		console.log('grid event 대기');
     		
-    		$("#window").kendoWindow({ //create a window
-    			width: "600px",
-    			title: "되긴 했지만 아직도 모르겟다.",
-   	        	visible: false,
-   	        	actions: [
-                    "Minimize",
-                    "Maximize",
-                    "Close"
-                ]
-   	       });
-    		
-    	 	  $("tbody > tr").dblclick( function(e) {
+    	 	  grid.tbody.find('tr').dblclick( function(e) {
     	 		console.log('dblclick event ');
-    			let uid = $(this).find('tr[data-uid]').context.dataset.uid;//tr의 uid 가져오기    			
-    			console.log(uid);
-    			let model = viewModel.products.getByUid(uid)
-    			viewModel.set("selected", model);//update 
-    			$("#window").data("kendoWindow").open().center();//창 오픈
+//     			let uid = $(this).find('tr[data-uid]').context.dataset.uid;//tr의 uid 가져오기    			
+//     			var model = viewModel.products.getByUid(uid);
+    			
+    			var model = grid.dataItem(this);//데이터 찾기 // dblclick(tr) grid table row data = this
+//     			viewModel.set("selected", model);//update 
+    			
+    			var window = $('#window').kendoWindow({ 
+        			width: "600px",
+        			title: "되긴 했지만 아직도 모르겟다.",
+        			modal: true,
+       	        	content: {	      	        		
+       	        	    template: kendo.template($('#windowTemplate').html())
+       	        	  		},
+       	        	actions: [
+                        "Minimize",
+                        "Maximize",
+                        "Close"
+                    ]
+       	       }).data("kendoWindow").open().center();//창 오픈
 				
-    			});  
-    	 	
+    			kendo.bind(window.wrapper, model);
+    	 	  
+    	 	  });  
+
+        },
+        
+        //tapStrip - tap2 grid - bound - row dblclick - window - ComboBox
+        
+        selectedProduct: null,
+        
+        isPrimitive: false,
+        
+        primitiveChanged: function() {
+            this.set("selectedProduct", null);
+        },
+        displaySelectedProduct: function() {
+            var selectedProduct = this.get("selectedProduct");
+            return kendo.stringify(selectedProduct, null, 4);
+        },
+        
+        isTapDataBound: function(e){ //tap grid
+        	console.log('tap grid dblclick 대기');
+        	
+        	let grid = e.sender;
+        	
+        	grid.tbody.find('tr').dblclick( function(e) {
+        		
+        		console.log('tap2 grid row dblclick event ');       		
+	        	$('#windowTap2').kendoWindow({
+	        		
+	        		width: "600px",
+        			title: "tap2 grid window",
+        			modal: true,
+       	        	content: {	      	        		
+       	        		template: kendo.template($('#tap2ComboBoxWindowTemplate').html())
+       	        	  		},
+       	        	actions: [
+                        "Minimize",
+                        "Maximize",
+                        "Close"
+                    ]
+	        		
+	        	}).data('kendoWindow').open().center();
+        	
+	        	kendo.bind(windowTap2.wrapper, viewModel);
+        	});
         },
     	
 
     	//splitter
     	isVisible: true,
-    			
-    	oneVisible: true, //출력 유무
-    	twoVisible: false,
+    	isEnabled: true,
+    	gridVisible: true, //출력 유무
+    	tapVisible: false,
     	
     	 onSelect: function(e) {
     		let panelBar = e.sender;
             let text = panelBar.dataItem($(e.item)).name;
             console.log(text);
     		if(text=='스케쥴러 등록 현황'){   				
-    			this.set('oneVisible',true);
-    			this.set('twoVisible',false);
-    		}else if(text=='실행 진행 중'){
-    			this.set('twoVisible',true);
-    			this.set('oneVisible',false)
+    			this.set('gridVisible',true);
+    			this.set('tapVisible',false);
+    		}else if(text=='tapStrip'){
+    			this.set('tapVisible',true);
+    			this.set('gridVisible',false);
     		}
     		
     		 // viewModel.set("twoVisible",!viewModel.get("twoVisible"));
@@ -220,7 +329,7 @@
     	//panelbar
         files: kendo.observableHierarchy([
             { name: "스케쥴러 등록 현황"},
-            { name: "실행 진행 중"}
+            { name:"tapStrip"}
         ]),
         
         //grid
@@ -237,18 +346,19 @@
 					]
         }),
         
-        products2: new kendo.data.DataSource({  
-        	
+        products2: new kendo.data.DataSource({
+            
             data:  [//localdata
-            		{no:01,name:"가나",content:"다다다다",date:"101-111-112"},
-					{no:02,name:"나다",content:"가가가가",date:"111-121-131"},
-					{no:03,name:"다라",content:"마마마마",date:"121-131-141"},
-					{no:04,name:"라마",content:"다다다다",date:"131-141-151"},
-					{no:05,name:"마바",content:"사사사사",date:"141-151-161"},
-					{no:06,name:"바사",content:"마마마마",date:"151-116-171"},
-					{no:07,name:"사아",content:"자자자자",date:"161-117-181"}
+            		{no:1,name:"A",content:"가B니",date:"10-111-12"},
+					{no:2,name:"B",content:"나C꾼",date:"11-122-13"},
+					{no:3,name:"C",content:"다D미",date:"12-131-14"},
+					{no:4,name:"D",content:"라E오",date:"13-142-15"},
+					{no:5,name:"E",content:"마F석",date:"14-153-16"},
+					{no:6,name:"F",content:"바G퍼",date:"15-164-17"},
+					{no:7,name:"G",content:"사H귀",date:"16-177-18"}
 					]
-        }),
+        })
+       
         
     });
     
