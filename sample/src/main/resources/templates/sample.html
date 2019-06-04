@@ -43,13 +43,65 @@
         <fieldset>
 			
 				<p>NO</p>
-				<p style="text-align: right;" data-bind="text: oneData.no"></p>
+				<input data-role="combobox"
+
+                   data-text-field="no"
+                   data-value-field="no"
+                   data-bind="value: selectedProduct,
+                              source: products2,
+                              visible: isVisible,
+                              events: {
+                                change: onChange,
+                                open: onOpen,
+                                close: onClose
+                              }"
+                   style="width: 100%"
+            	/>
 				<p>NAME</p>
-				<p style="text-align: right;" data-bind="text: oneData.name"></p>
+				<input data-role="combobox"
+
+                   data-text-field="name"
+                   data-value-field="name"
+                   data-bind="value: selectedProduct,
+                              source: products2,
+                              visible: isVisible,
+                              events: {
+                                change: onChange,
+                                open: onOpen,
+                                close: onClose
+                              }"
+                   style="width: 100%"
+            	/>
 				<p>CONTENT</p>
-				<p style="text-align: right;" data-bind="text: oneData.content"></p>
+				<input data-role="combobox"
+
+                   data-text-field="content"
+                   data-value-field="content"
+                   data-bind="value: selectedProduct,
+                              source: products2,
+                              visible: isVisible,
+                              events: {
+                                change: onChange,
+                                open: onOpen,
+                                close: onClose
+                              }"
+                   style="width: 100%"
+            	/>
 				<p>DATE</p>
-				<p style="text-align: right;" data-bind="text: oneData.date"></p>
+				<input data-role="combobox"
+
+                   data-text-field="date"
+                   data-value-field="date"
+                   data-bind="value: selectedProduct,
+                              source: products2,
+                              visible: isVisible,
+                              events: {
+                                change: onChange,
+                                open: onOpen,
+                                close: onClose
+                              }"
+                   style="width: 100%"
+            	/>
 			
 			</fieldset>
     </div>

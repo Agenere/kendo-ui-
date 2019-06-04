@@ -110,7 +110,7 @@
 					                                   { 'field': 'date','title': '날짜' }
 						                              ]"
 						                 data-bind="visible: isVisible,
-						                 			source: products,
+						                 			source: products2,
 						                 			events: { dataBound : isTapDataBound }" 
 						                 style="height: 600px">
 				                 	</div>
@@ -136,28 +136,55 @@
 <script id="tap2ComboBoxWindowTemplate" type="text/x-kendo-template">
 	
 			<h4>ComboBox</h4>
+			<p>
 			<input data-role="combobox"
-                   data-placeholder="힝~"
+				   data-placeholder="선택 및 검색??"
                    data-text-field="content"
                    data-value-field="name"
                    data-bind="value: selectedProduct,
-                              source: products2,
+							  source: products2,
                               visible: isVisible,
-                              events: {
-                                change: onChange
                               }"
                    style="width: 100%"
             />
+			</p>
 			<fieldset>
 			
 				<p>NO</p>
-				<p style="text-align: right;" data-bind="text: comboBoxData.no"></p>
+				<input data-role="combobox"
+                   data-text-field="no"
+                   data-value-field="no"
+                   data-bind="value: selectedProduct,
+                              }"
+                   style="width: 100%"
+            	/>
+
 				<p>NAME</p>
-				<p style="text-align: right;" data-bind="text: comboBoxData.name"></p>
+				<input data-role="combobox"
+                   data-text-field="name"
+                   data-value-field="name"
+                   data-bind="value: selectedProduct,
+                              }"
+                   style="width: 100%"
+            	/>
+
 				<p>CONTENT</p>
-				<p style="text-align: right;" data-bind="text: comboBoxData.content"></p>
+				<input data-role="combobox"
+                   data-text-field="content"
+                   data-value-field="content"
+                   data-bind="value: selectedProduct,
+                              }"
+                   style="width: 100%"
+            	/>
+
 				<p>DATE</p>
-				<p style="text-align: right;" data-bind="text: comboBoxData.date"></p>
+				<input data-role="combobox"
+                   data-text-field="date"
+                   data-value-field="date"
+                   data-bind="value: selectedProduct,
+                              }"
+                   style="width: 100%"
+            	/>
 			
 			</fieldset>
 		
@@ -264,13 +291,8 @@
         
         selectedProduct: null,
         
-        comboBoxData:{},
-        
         primitiveChanged: function() {
         	viewModel.set("selectedProduct", null);
-        },
-        onChange: function() {
-        	viewModel.set("comboBoxData",viewModel.get("selectedProduct"));
         },
         
         isTapDataBound: function(e){ //tap grid
@@ -279,8 +301,9 @@
         	let grid = e.sender;
         	
         	grid.tbody.find('tr').dblclick( function(e) {
+        		
         		let model = grid.dataItem(this);
-        		viewModel.set('comboBoxData',model);//클릭한 정보를 
+        		viewModel.set('selectedProduct',model);//클릭한 정보를 셋팅
         		
         		console.log('tap2 grid row dblclick event ');       		
 	        	let windowTap2 = $('#windowTap2').kendoWindow({
@@ -347,13 +370,13 @@
         products2: new kendo.data.DataSource({
             
             data:  [//localdata
-            		{no:1,name:"A",content:"가B니",date:"10-111-12"},
-					{no:2,name:"B",content:"나C꾼",date:"11-122-13"},
-					{no:3,name:"C",content:"다D미",date:"12-131-14"},
+            		{no:1,name:"A",content:"가B니",date:"15-191-12"},
+					{no:2,name:"B",content:"나C꾼",date:"12-122-13"},
+					{no:3,name:"C",content:"다D미",date:"13-131-14"},
 					{no:4,name:"D",content:"라E오",date:"13-142-15"},
 					{no:5,name:"E",content:"마F석",date:"14-153-16"},
 					{no:6,name:"F",content:"바G퍼",date:"15-164-17"},
-					{no:7,name:"G",content:"사H귀",date:"16-177-18"}
+					{no:7,name:"G",content:"사H귀",date:"13-197-19"}
 					]
         })
        
